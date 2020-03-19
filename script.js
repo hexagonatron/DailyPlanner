@@ -1,7 +1,11 @@
 const timeContainer = document.querySelector(".time-block-container");
 const currentDateEl = document.querySelector("#currentDay");
+const nextBtn = document.querySelector(".btn-next");
+const prevBtn = document.querySelector(".btn-prev");
+
 
 const createDateBlock = (date) => {
+    timeContainer.innerHTML = "";
     var dateOuterDiv = document.createElement("div");
     dateOuterDiv.classList.add("time-block");
 
@@ -13,7 +17,7 @@ const createDateBlock = (date) => {
     
     for(let i=0; i <= 23; i++){
 
-        let labelDate = moment().hour(i)
+        let labelDate = date.hour(i);
 
         let hourRow = document.createElement("div");
         hourRow.classList.add("row");
@@ -26,6 +30,13 @@ const createDateBlock = (date) => {
         hourDescription.classList.add("description", "col-8");
         hourDescription.setAttribute("contenteditable", true);
         hourDescription.setAttribute("data-hour", i);
+        let descriptionClass = labelDate.isBefore(currentDate, 'hour')
+            ? "past"
+            : labelDate.isSame(currentDate, 'hour')
+                ? "present"
+                : "future";
+
+        hourDescription.classList.add(descriptionClass);    
 
         if(storedData[date.format("YYYY-MM-DD")]){
             if(storedData[date.format("YYYY-MM-DD")][i]){
@@ -77,6 +88,19 @@ localStorage.setItem("DailyPlannerData", savedData);
 }
 
 let displayDate = moment();
+let currentDate = moment();
 
-currentDateEl.innerText = displayDate.format("dddd Wo MMMM");
+currentDateEl.innerText = displayDate.format("dddd Do MMMM");
 createDateBlock(displayDate);
+
+nextBtn.addEventListener("click", (e) => {
+    displayDate.add(1, 'd');
+    currentDateEl.innerText = displayDate.format("dddd Do MMMM");
+    createDateBlock(displayDate);
+});
+
+prevBtn.addEventListener("click", (e) => {
+    displayDate.subtract(1, 'd');
+    currentDateEl.innerText = displayDate.format("dddd Do MMMM");
+    createDateBlock(displayDate);
+});
