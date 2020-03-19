@@ -1,1 +1,1 @@
-# Day Planner
+# Daily Planner
