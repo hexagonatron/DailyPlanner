@@ -25,9 +25,16 @@ textarea{
   white-space: pre-wrap;
 }
 
+.time-block-container {
+  position: relative;
+}
+
 .time-block{
   text-align: center;
   border-radius: 15px;
+  position: absolute;
+  width: 100%;
+  transition: transform 0.4s ease;
 }
 
 .row {
@@ -68,4 +75,12 @@ textarea{
 .saveBtn i:hover {
   font-size: 20px;
   transition: all .3s ease-in-out;
+}
+
+.animate-right {
+  transform: translate(120vw);
+}
+.animate-left {
+  
+  transform: translate(-120vw);
 }

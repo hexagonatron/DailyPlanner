@@ -10,9 +10,6 @@ const createDateBlock = (date) => {
     //sets title date to what's being displayed
     currentDateEl.innerText = date.format("dddd Do MMMM");
 
-    //Clears existing rows on page
-    timeContainer.innerHTML = "";
-
     //Creates outer div and adds class
     var dateOuterDiv = document.createElement("div");
     dateOuterDiv.classList.add("time-block");
@@ -79,13 +76,37 @@ const createDateBlock = (date) => {
         hourRow.appendChild(hourLabel);
         hourRow.appendChild(hourDescription);
         hourRow.appendChild(saveBtn);
-
+        
         //Appending row to page for display
-        timeContainer.appendChild(hourRow);
-
+        dateOuterDiv.appendChild(hourRow); 
     }
 
+    return dateOuterDiv;
+
 }
+
+const removeBlock = (node, direction) => {
+    node.classList.add(`animate-${direction}`);
+    setTimeout(() => {
+        node.parentNode.removeChild(node);
+    }, 400);
+}
+
+//Assigns animation css classes when block is created
+const slideBlock = (direction) => {
+    newDateDiv = createDateBlock(displayDate);
+
+    directionClass = `animate-${direction}`;
+
+    newDateDiv.classList.add(directionClass);
+    timeContainer.appendChild(newDateDiv);
+
+    setTimeout(()=> {
+        newDateDiv.classList.remove(directionClass);
+    }, 50);
+
+    return newDateDiv;
+} 
 
 //Save button Fn
 const saveData = (event) => {
@@ -120,18 +141,20 @@ let displayDate = moment();
 
 //on page load set date to display as current date and call the display function
 
-createDateBlock(displayDate);
-
+let currentBlock = createDateBlock(displayDate);
+timeContainer.appendChild(currentBlock);
 
 //Attaching event listeners to next and prev buttons
 nextBtn.addEventListener("click", (e) => {
     //adds 1 day to the display date then calls display function
     displayDate.add(1, 'd');
-    createDateBlock(displayDate);
+    removeBlock(currentBlock, "left");
+    currentBlock = slideBlock("right");
 });
 
 prevBtn.addEventListener("click", (e) => {
     //subtracts a day from display date and calls display function
     displayDate.subtract(1, 'd');
-    createDateBlock(displayDate);
+    removeBlock(currentBlock, "right");
+    currentBlock = slideBlock("left");
 });
