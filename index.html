@@ -19,22 +19,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <title>Work Day Scheduler</title>
+    <script src="https://kit.fontawesome.com/6213180c78.js" crossorigin="anonymous"></script>
+    <title>Daily Scheduler</title>
   </head>
 
   <body>
     <header class="jumbotron">
-      <h1 class="display-3">Work Day Scheduler</h1>
-      <p class="lead">A simple calendar app for scheduling your work day</p>
-      <div class="current-day-control">
-        <button class="btn btn-prev"><</button>
-        <span id="currentDay" class="lead"></span>
-        <button class="btn btn-next">></button>
+      <h1 class="display-3">Daily Scheduler</h1>
+      <p class="lead">A simple calendar app for scheduling your day</p>
+      <div class="current-day-control d-flex justify-content-center align-items-center">
+        <button class="btn btn-primary btn-prev"><i class="fas fa-angle-left"></i></button>
+        <div><p id="currentDay" class="lead"></p></div>
+        <button class="btn btn-primary btn-next"><i class="fas fa-angle-right"></i></button>
 
       </div>
-    </header>
-    <div class="container time-block-container">
-    </div>
+      </header>
+      <div class="page-container d-flex flex-column align-items-center">
+        <button class="btn btn-primary up-btn m-1 px-3"><i class="fas fa-angle-up"></i></button>
+        <div class="animation-container">
+          <div class="container time-block-container col-12 col-md-8">
+          </div>
+        </div>
+        <button class="btn btn-primary down-btn m-1 px-3"><i class="fas fa-angle-down"></i></button>
+      </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

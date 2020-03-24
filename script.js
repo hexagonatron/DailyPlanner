@@ -3,6 +3,8 @@ const timeContainer = document.querySelector(".time-block-container");
 const currentDateEl = document.querySelector("#currentDay");
 const nextBtn = document.querySelector(".btn-next");
 const prevBtn = document.querySelector(".btn-prev");
+const upBtn = document.querySelector(".up-btn");
+const downBtn = document.querySelector(".down-btn");
 
 //Function that creates all the hour rows given a particular day
 const createDateBlock = (date) => {
@@ -31,6 +33,11 @@ const createDateBlock = (date) => {
         let hourRow = document.createElement("div");
         hourRow.classList.add("row");
 
+        //Check if in range to display, if not then hide
+        if(i < startHour || i >= (startHour+8)){
+            hourRow.classList.add("hidden");
+        }
+
         //creating row hour label div
         let hourLabel = document.createElement("div");
         hourLabel.classList.add("hour", "col-2");
@@ -39,7 +46,7 @@ const createDateBlock = (date) => {
 
         //creates main description div
         let hourDescription = document.createElement("div");
-        hourDescription.classList.add("description", "col-8");
+        hourDescription.classList.add("description", "col-7");
         //Allows user to type in things
         hourDescription.setAttribute("contenteditable", true);
         //Assigning data attribute so that box can be targeted later
@@ -66,7 +73,9 @@ const createDateBlock = (date) => {
 
         //Creating save button
         let saveBtn = document.createElement("div");
-        saveBtn.classList.add("saveBtn", "col-2");
+        //Adding FA icon and classes
+        saveBtn.innerHTML = "<i class=\"far fa-save\"></i>"
+        saveBtn.classList.add("saveBtn", "col-2", "d-flex", "align-items-center", "justify-content-center");
         //data attribute to use later
         saveBtn.setAttribute("data-hour", i);
         //assigning click event handler
@@ -83,6 +92,22 @@ const createDateBlock = (date) => {
 
     return dateOuterDiv;
 
+}
+
+//Function that updates hidden state of rows based on what's on page
+const updateHidden = () => {
+
+    //Get row elements on page
+    let hourRows = document.querySelectorAll(".time-block .row");
+
+    //iterate through rows and add hidden class if not in display range. remove hidden class if in display range
+    hourRows.forEach((row, i) => {
+        if(i < startHour || i >= (startHour+8)){
+            row.classList.add("hidden");
+        } else {
+            row.classList.remove("hidden");
+        }
+    })
 }
 
 const removeBlock = (node, direction) => {
@@ -138,6 +163,8 @@ const saveData = (event) => {
 
 //Sets data to display as current date
 let displayDate = moment();
+//Hour to start at
+let startHour = 9;
 
 //on page load set date to display as current date and call the display function
 
@@ -157,4 +184,14 @@ prevBtn.addEventListener("click", (e) => {
     displayDate.subtract(1, 'd');
     removeBlock(currentBlock, "right");
     currentBlock = slideBlock("left");
+});
+
+upBtn.addEventListener("click", (e) => {
+    startHour = startHour==0? 0: startHour - 1;
+    updateHidden();
+});
+
+downBtn.addEventListener("click", (e) => {
+    startHour = startHour==16? 16: startHour + 1;
+    updateHidden();
 });
