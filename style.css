@@ -93,6 +93,11 @@ body {
   transform: translate(-120vw);
 }
 
+button {
+  background-color: #06AED5!important;
+  border-color: #06AED5!important;
+}
+
 .hidden {
   display: none;
 }
